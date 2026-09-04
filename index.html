@@ -1,721 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>404 — Svajis</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background: #e8e5dc;
+            color: #171717;
+            font-family: "Courier New", Courier, monospace;
+            overflow: hidden;
+        }
+
+        /* CRT / old monitor effect */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
 
-<title>@svajis</title>
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.035) 0px,
+                    rgba(0, 0, 0, 0.035) 1px,
+                    transparent 1px,
+                    transparent 4px
+                );
 
-<style>
+            z-index: 20;
+        }
 
-* {
-    box-sizing: border-box;
-}
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
 
-body {
-    margin: 0;
-    background: #0b0f10;
-    color: #f5f5f5;
-    font-family: Arial, Helvetica, sans-serif;
-}
+            box-shadow:
+                inset 0 0 120px rgba(0, 0, 0, 0.18);
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
+            z-index: 21;
+        }
 
-.container {
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
-    padding: 0 18px 60px;
-}
+        .page {
+            min-height: 100vh;
+            padding: 28px;
 
-/* HEADER */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-header {
-    height: 70px;
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+            border-bottom: 2px solid #171717;
+            padding-bottom: 12px;
 
-    border-bottom: 1px solid #25292a;
-}
+            font-size: 13px;
+        }
 
-.username {
-    font-size: 22px;
-    font-weight: 500;
-}
+        .logo {
+            font-weight: bold;
+            letter-spacing: -1px;
+        }
 
-.instagram-link {
-    font-size: 14px;
-    color: #ccc;
-}
+        .status {
+            text-align: right;
+        }
 
-.instagram-link:hover {
-    color: white;
-}
+        .main {
+            width: 100%;
+            max-width: 850px;
+            margin: auto;
 
+            padding: 40px 0;
+        }
 
-/* PROFILE */
+        .error {
+            font-size: clamp(90px, 18vw, 190px);
+            line-height: 0.8;
+            font-weight: bold;
+            letter-spacing: -12px;
 
-.profile {
-    display: grid;
+            margin-left: -10px;
 
-    grid-template-columns: 180px 1fr;
+            animation: flicker 4s infinite;
+        }
 
-    gap: 40px;
+        .message {
+            margin-top: 45px;
 
-    padding: 42px 35px 35px;
+            font-size: 16px;
+            line-height: 1.7;
 
-    align-items: center;
-}
+            max-width: 650px;
+        }
 
-.profile-picture {
-    width: 150px;
-    height: 150px;
+        .message strong {
+            font-weight: bold;
+        }
 
-    border-radius: 50%;
+        .terminal {
+            margin-top: 30px;
 
-    object-fit: cover;
+            border: 2px solid #171717;
 
-    background: #333;
-}
+            padding: 18px;
 
-.profile-info h1 {
-    margin: 0 0 20px;
+            background: #dedbd2;
 
-    font-size: 21px;
-    font-weight: 500;
-}
+            font-size: 13px;
+            line-height: 1.8;
+        }
 
-.stats {
-    display: flex;
-    gap: 35px;
+        .terminal .red {
+            color: #9b1c1c;
+        }
 
-    margin-bottom: 20px;
+        .instagram {
+            display: inline-block;
 
-    font-size: 14px;
+            margin-top: 30px;
 
-    color: #aaa;
-}
+            color: #171717;
 
-.stats strong {
-    color: white;
-}
+            border: 2px solid #171717;
 
-.real-name {
-    font-size: 14px;
-    font-weight: 600;
+            padding: 12px 18px;
 
-    margin-bottom: 8px;
-}
+            text-decoration: none;
 
-.bio {
-    font-size: 13px;
-    color: #ccc;
-}
+            font-weight: bold;
 
+            transition:
+                background 0.15s,
+                color 0.15s;
+        }
 
-/* TABS */
+        .instagram:hover {
+            background: #171717;
+            color: #e8e5dc;
+        }
 
-.tabs {
-    height: 58px;
+        .cursor {
+            display: inline-block;
 
-    border-top: 1px solid #25292a;
-    border-bottom: 1px solid #25292a;
+            width: 8px;
+            height: 15px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+            background: #171717;
 
-    gap: 100px;
-}
+            margin-left: 4px;
 
-.tab {
-    color: #777;
+            vertical-align: middle;
 
-    width: 25px;
-    height: 25px;
+            animation: blink 1s steps(1) infinite;
+        }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        footer {
+            border-top: 2px solid #171717;
 
-.tab.active {
-    color: white;
-}
+            padding-top: 12px;
 
+            display: flex;
+            justify-content: space-between;
 
-/* INSTAGRAM GRID */
+            font-size: 11px;
+        }
 
-.grid {
-    display: grid;
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
 
-    grid-template-columns: repeat(3, 1fr);
+        @keyframes flicker {
+            0%, 18%, 22%, 63%, 64%, 65%, 100% {
+                opacity: 1;
+            }
 
-    gap: 3px;
+            19%, 21%, 62% {
+                opacity: 0.75;
+            }
+        }
 
-    margin-top: 3px;
-}
+        @media (max-width: 600px) {
 
-.post {
-    position: relative;
+            .page {
+                padding: 18px;
+            }
 
-    aspect-ratio: 1 / 1;
+            .error {
+                font-size: 110px;
+                letter-spacing: -7px;
+            }
 
-    overflow: hidden;
+            .message {
+                font-size: 14px;
+            }
 
-    background: #15191a;
-}
+            .terminal {
+                font-size: 11px;
+            }
 
-.post img,
-.post video {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    display: block;
-
-    transition: transform .4s ease;
-}
-
-.post:hover img,
-.post:hover video {
-    transform: scale(1.04);
-}
-
-
-/* REEL ICON */
-
-.reel-icon {
-    position: absolute;
-
-    right: 10px;
-    top: 10px;
-
-    width: 22px;
-    height: 22px;
-
-    color: white;
-
-    filter: drop-shadow(0 1px 4px black);
-
-    z-index: 2;
-}
-
-
-/* LOADING */
-
-.loading {
-    grid-column: 1 / -1;
-
-    padding: 100px 20px;
-
-    text-align: center;
-
-    color: #666;
-}
-
-
-/* ERROR */
-
-.error {
-    grid-column: 1 / -1;
-
-    padding: 100px 20px;
-
-    text-align: center;
-
-    color: #888;
-}
-
-
-/* FOOTER */
-
-footer {
-    text-align: center;
-
-    padding-top: 35px;
-
-    color: #555;
-
-    font-size: 11px;
-}
-
-
-/* MOBILE */
-
-@media (max-width: 650px) {
-
-    .container {
-        padding: 0 8px 40px;
-    }
-
-    header {
-        height: 60px;
-        padding: 0 8px;
-    }
-
-    .username {
-        font-size: 19px;
-    }
-
-    .instagram-link {
-        font-size: 12px;
-    }
-
-    .profile {
-
-        grid-template-columns: 90px 1fr;
-
-        gap: 20px;
-
-        padding: 28px 12px;
-    }
-
-    .profile-picture {
-        width: 85px;
-        height: 85px;
-    }
-
-    .profile-info h1 {
-        font-size: 18px;
-        margin-bottom: 12px;
-    }
-
-    .stats {
-        gap: 15px;
-        font-size: 11px;
-        margin-bottom: 12px;
-    }
-
-    .real-name {
-        font-size: 12px;
-    }
-
-    .bio {
-        font-size: 11px;
-    }
-
-    .tabs {
-        gap: 60px;
-    }
-
-}
-
-</style>
+            footer {
+                font-size: 9px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
+<div class="page">
 
-<div class="container">
+    <header class="top">
+        <div class="logo">
+            SVAJIS.TXT
+        </div>
 
-
-<header>
-
-    <a
-        class="username"
-        href="https://www.instagram.com/svajis/"
-        target="_blank"
-    >
-        @svajis
-    </a>
-
-    <a
-        class="instagram-link"
-        href="https://www.instagram.com/svajis/"
-        target="_blank"
-    >
-        Instagram ↗
-    </a>
-
-</header>
+        <div class="status">
+            SYSTEM: OFFLINE<br>
+            ERROR: 404
+        </div>
+    </header>
 
 
+    <main class="main">
 
-<section class="profile">
+        <div class="error">
+            404
+        </div>
 
-    <img
-        id="profilePicture"
-        class="profile-picture"
-        src=""
-        alt="Svajis"
-    >
+        <div class="message">
+            <strong>PAGE NOT FOUND.</strong><br><br>
 
-    <div class="profile-info">
+            The page you are looking for does not exist,
+            has been deleted, or was never here in the first place.
+        </div>
 
-        <h1 id="username">
-            svajis
-        </h1>
 
-        <div class="stats">
+        <div class="terminal">
 
-            <span>
-                <strong id="followers">—</strong>
-                followers
-            </span>
-
-            <span>
-                <strong id="following">—</strong>
-                following
-            </span>
+            &gt; accessing /sirmelis.lt<br>
+            &gt; connection established...<br>
+            &gt; searching for page...<br>
+            &gt; <span class="red">ERROR: FILE NOT FOUND</span><br>
+            &gt; redirecting to alternative location...<span class="cursor"></span>
 
         </div>
 
-        <div
-            id="realName"
-            class="real-name"
+
+        <a
+            class="instagram"
+            href="https://www.instagram.com/svajis/"
+            target="_blank"
+            rel="noopener noreferrer"
         >
-            Svajūnas Širmelis
-        </div>
+            [ VISIT @SVAJIS ON INSTAGRAM ]
+        </a>
 
-        <div
-            id="bio"
-            class="bio"
-        >
-            FILMMAKER & BMX RIDER
-        </div>
-
-    </div>
-
-</section>
+    </main>
 
 
+    <footer>
 
-<div class="tabs">
+        <span>
+            © 2026 SVAJIS
+        </span>
 
-    <!-- GRID -->
+        <span>
+            ERROR CODE: 0x404
+        </span>
 
-    <div class="tab active">
-
-        <svg
-            width="21"
-            height="21"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-        >
-
-            <rect x="4" y="4" width="6" height="6"/>
-            <rect x="14" y="4" width="6" height="6"/>
-            <rect x="4" y="14" width="6" height="6"/>
-            <rect x="14" y="14" width="6" height="6"/>
-
-        </svg>
-
-    </div>
-
-
-    <!-- REELS -->
-
-    <div class="tab">
-
-        <svg
-            width="21"
-            height="21"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-        >
-
-            <rect
-                x="4"
-                y="4"
-                width="16"
-                height="16"
-                rx="4"
-            />
-
-            <path d="M9 8l6 4-6 4V8z"/>
-
-        </svg>
-
-    </div>
-
-
-    <!-- TAGGED -->
-
-    <div class="tab">
-
-        <svg
-            width="21"
-            height="21"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-        >
-
-            <rect
-                x="4"
-                y="4"
-                width="16"
-                height="16"
-                rx="4"
-            />
-
-            <circle
-                cx="12"
-                cy="11"
-                r="3"
-            />
-
-            <path
-                d="M8 20c.8-2.7 2.1-4 4-4s3.2 1.3 4 4"
-            />
-
-        </svg>
-
-    </div>
+    </footer>
 
 </div>
-
-
-
-<!-- REAL INSTAGRAM POSTS -->
-
-<section
-    id="feed"
-    class="grid"
->
-
-    <div class="loading">
-        Loading Instagram…
-    </div>
-
-</section>
-
-
-
-<footer>
-    © 2026 Svajis
-</footer>
-
-
-</div>
-
-
-
-<script>
-
-async function loadInstagramFeed() {
-
-    const feed =
-        document.getElementById("feed");
-
-    try {
-
-        const response =
-            await fetch("instagram.json?cache=" + Date.now());
-
-        if (!response.ok) {
-            throw new Error("instagram.json not found");
-        }
-
-        const data =
-            await response.json();
-
-
-        /* PROFILE */
-
-        if (data.profile) {
-
-            if (data.profile.profile_picture) {
-
-                document
-                    .getElementById("profilePicture")
-                    .src =
-                    data.profile.profile_picture;
-
-            }
-
-            if (data.profile.username) {
-
-                document
-                    .getElementById("username")
-                    .textContent =
-                    data.profile.username;
-
-            }
-
-            if (data.profile.followers !== undefined) {
-
-                document
-                    .getElementById("followers")
-                    .textContent =
-                    data.profile.followers.toLocaleString();
-
-            }
-
-            if (data.profile.following !== undefined) {
-
-                document
-                    .getElementById("following")
-                    .textContent =
-                    data.profile.following.toLocaleString();
-
-            }
-
-            if (data.profile.name) {
-
-                document
-                    .getElementById("realName")
-                    .textContent =
-                    data.profile.name;
-
-            }
-
-            if (data.profile.bio) {
-
-                document
-                    .getElementById("bio")
-                    .textContent =
-                    data.profile.bio;
-
-            }
-
-        }
-
-
-        /* POSTS */
-
-        feed.innerHTML = "";
-
-
-        if (!data.posts || data.posts.length === 0) {
-
-            feed.innerHTML = `
-                <div class="error">
-                    No Instagram posts found.
-                </div>
-            `;
-
-            return;
-        }
-
-
-        data.posts.forEach(post => {
-
-            const link =
-                document.createElement("a");
-
-            link.className = "post";
-
-            link.href =
-                post.permalink;
-
-            link.target =
-                "_blank";
-
-            link.rel =
-                "noopener noreferrer";
-
-
-            let media;
-
-
-            if (
-                post.media_type === "VIDEO"
-                &&
-                post.thumbnail_url
-            ) {
-
-                media =
-                    document.createElement("img");
-
-                media.src =
-                    post.thumbnail_url;
-
-            }
-
-            else {
-
-                media =
-                    document.createElement("img");
-
-                media.src =
-                    post.media_url;
-
-            }
-
-
-            media.loading =
-                "lazy";
-
-            media.alt =
-                post.caption || "@svajis";
-
-
-            link.appendChild(media);
-
-
-            /* REEL / VIDEO ICON */
-
-            if (post.media_type === "VIDEO") {
-
-                const icon =
-                    document.createElement("div");
-
-                icon.className =
-                    "reel-icon";
-
-                icon.innerHTML = `
-                    <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                    >
-                        <rect
-                            x="4"
-                            y="4"
-                            width="16"
-                            height="16"
-                            rx="4"
-                        />
-                        <path d="M9 8l6 4-6 4V8z"/>
-                    </svg>
-                `;
-
-                link.appendChild(icon);
-
-            }
-
-
-            feed.appendChild(link);
-
-        });
-
-    }
-
-
-    catch (error) {
-
-        console.error(error);
-
-        feed.innerHTML = `
-            <div class="error">
-                Unable to load Instagram feed.
-            </div>
-        `;
-
-    }
-
-}
-
-
-loadInstagramFeed();
-
-</script>
-
 
 </body>
 </html>
