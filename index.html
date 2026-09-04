@@ -1,282 +1,400 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>404 — Svajis</title>
+<title>Svajūnas Širmelis — 404</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    body {
+        background: #d8d6ce;
+        color: #111;
+        font-family: "Courier New", Courier, monospace;
+        overflow: hidden;
+    }
+
+    /* =========================
+       ANALOG TV NOISE
+       ========================= */
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 50;
+
+        background:
+            repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,0.08) 0px,
+                rgba(0,0,0,0.08) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+
+        opacity: 0.7;
+        mix-blend-mode: multiply;
+    }
+
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 51;
+
+        background-image:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+
+        opacity: 0.18;
+        mix-blend-mode: multiply;
+
+        animation: noise 0.12s steps(2) infinite;
+    }
+
+    @keyframes noise {
+        0% {
+            transform: translate(0, 0);
         }
 
-        html,
-        body {
-            margin: 0;
-            width: 100%;
-            height: 100%;
+        25% {
+            transform: translate(-2%, 1%);
         }
 
-        body {
-            background: #e8e5dc;
-            color: #171717;
-            font-family: "Courier New", Courier, monospace;
-            overflow: hidden;
+        50% {
+            transform: translate(1%, -2%);
         }
 
-        /* CRT / old monitor effect */
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-
-            background:
-                repeating-linear-gradient(
-                    to bottom,
-                    rgba(0, 0, 0, 0.035) 0px,
-                    rgba(0, 0, 0, 0.035) 1px,
-                    transparent 1px,
-                    transparent 4px
-                );
-
-            z-index: 20;
+        75% {
+            transform: translate(2%, 1%);
         }
 
-        body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-
-            box-shadow:
-                inset 0 0 120px rgba(0, 0, 0, 0.18);
-
-            z-index: 21;
+        100% {
+            transform: translate(-1%, -1%);
         }
+    }
+
+    /* =========================
+       SCREEN EDGES / VIGNETTE
+       ========================= */
+
+    .screen {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 40;
+
+        box-shadow:
+            inset 0 0 90px rgba(0,0,0,0.22),
+            inset 0 0 10px rgba(0,0,0,0.45);
+    }
+
+    /* occasional horizontal interference */
+
+    .interference {
+        position: fixed;
+        left: 0;
+        width: 100%;
+        height: 2px;
+
+        background: rgba(255,255,255,0.35);
+
+        z-index: 45;
+        pointer-events: none;
+
+        animation: interference 7s linear infinite;
+    }
+
+    @keyframes interference {
+
+        0% {
+            top: -10%;
+            opacity: 0;
+        }
+
+        8% {
+            opacity: 0;
+        }
+
+        9% {
+            opacity: 0.8;
+        }
+
+        10% {
+            opacity: 0;
+        }
+
+        60% {
+            top: 110%;
+            opacity: 0;
+        }
+
+        100% {
+            top: 110%;
+            opacity: 0;
+        }
+    }
+
+    /* =========================
+       PAGE
+       ========================= */
+
+    .page {
+        min-height: 100vh;
+
+        padding: 20px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    header {
+        height: 33px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        border-bottom: 2px solid #111;
+
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .name {
+        letter-spacing: -0.5px;
+    }
+
+    .status {
+        text-align: right;
+        line-height: 1.25;
+        font-weight: normal;
+    }
+
+    /* =========================
+       CENTER
+       ========================= */
+
+    main {
+        width: 100%;
+        max-width: 730px;
+
+        margin: auto;
+        padding: 50px 0;
+    }
+
+    .error-code {
+        font-family: Arial, Helvetica, sans-serif;
+
+        font-size: clamp(110px, 16vw, 175px);
+
+        line-height: 0.8;
+
+        font-weight: 900;
+
+        letter-spacing: -12px;
+
+        margin-left: -8px;
+
+        text-align: left;
+
+        animation: flicker 5s infinite;
+    }
+
+    @keyframes flicker {
+
+        0%,
+        18%,
+        20%,
+        60%,
+        62%,
+        100% {
+            opacity: 1;
+        }
+
+        19% {
+            opacity: 0.65;
+        }
+
+        61% {
+            opacity: 0.8;
+        }
+    }
+
+    .content {
+        margin-top: 55px;
+    }
+
+    .title {
+        font-size: 14px;
+
+        font-weight: bold;
+
+        margin-bottom: 30px;
+    }
+
+    .description {
+        max-width: 620px;
+
+        font-size: 14px;
+
+        line-height: 1.7;
+    }
+
+    /* =========================
+       INSTAGRAM BUTTON
+       ========================= */
+
+    .instagram {
+        display: inline-block;
+
+        margin-top: 35px;
+
+        padding: 12px 18px;
+
+        border: 2px solid #111;
+
+        color: #111;
+
+        text-decoration: none;
+
+        font-size: 12px;
+
+        font-weight: bold;
+
+        transition: all 0.15s ease;
+    }
+
+    .instagram:hover {
+        background: #111;
+        color: #d8d6ce;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    footer {
+        height: 28px;
+
+        border-top: 2px solid #111;
+
+        padding-top: 10px;
+
+        display: flex;
+        justify-content: space-between;
+
+        font-size: 10px;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 600px) {
 
         .page {
-            min-height: 100vh;
-            padding: 28px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            padding: 15px;
         }
 
-        .top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-
-            border-bottom: 2px solid #171717;
-            padding-bottom: 12px;
-
-            font-size: 13px;
+        header {
+            font-size: 9px;
         }
 
-        .logo {
-            font-weight: bold;
-            letter-spacing: -1px;
+        main {
+            padding: 35px 0;
         }
 
-        .status {
-            text-align: right;
+        .error-code {
+            font-size: 105px;
+            letter-spacing: -8px;
         }
 
-        .main {
-            width: 100%;
-            max-width: 850px;
-            margin: auto;
-
-            padding: 40px 0;
-        }
-
-        .error {
-            font-size: clamp(90px, 18vw, 190px);
-            line-height: 0.8;
-            font-weight: bold;
-            letter-spacing: -12px;
-
-            margin-left: -10px;
-
-            animation: flicker 4s infinite;
-        }
-
-        .message {
+        .content {
             margin-top: 45px;
-
-            font-size: 16px;
-            line-height: 1.7;
-
-            max-width: 650px;
         }
 
-        .message strong {
-            font-weight: bold;
-        }
-
-        .terminal {
-            margin-top: 30px;
-
-            border: 2px solid #171717;
-
-            padding: 18px;
-
-            background: #dedbd2;
-
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .terminal .red {
-            color: #9b1c1c;
-        }
-
-        .instagram {
-            display: inline-block;
-
-            margin-top: 30px;
-
-            color: #171717;
-
-            border: 2px solid #171717;
-
-            padding: 12px 18px;
-
-            text-decoration: none;
-
-            font-weight: bold;
-
-            transition:
-                background 0.15s,
-                color 0.15s;
-        }
-
-        .instagram:hover {
-            background: #171717;
-            color: #e8e5dc;
-        }
-
-        .cursor {
-            display: inline-block;
-
-            width: 8px;
-            height: 15px;
-
-            background: #171717;
-
-            margin-left: 4px;
-
-            vertical-align: middle;
-
-            animation: blink 1s steps(1) infinite;
+        .description {
+            font-size: 12px;
         }
 
         footer {
-            border-top: 2px solid #171717;
-
-            padding-top: 12px;
-
-            display: flex;
-            justify-content: space-between;
-
-            font-size: 11px;
+            font-size: 8px;
         }
-
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
-        }
-
-        @keyframes flicker {
-            0%, 18%, 22%, 63%, 64%, 65%, 100% {
-                opacity: 1;
-            }
-
-            19%, 21%, 62% {
-                opacity: 0.75;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .page {
-                padding: 18px;
-            }
-
-            .error {
-                font-size: 110px;
-                letter-spacing: -7px;
-            }
-
-            .message {
-                font-size: 14px;
-            }
-
-            .terminal {
-                font-size: 11px;
-            }
-
-            footer {
-                font-size: 9px;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
+
 
 <body>
 
+<div class="screen"></div>
+<div class="interference"></div>
+
+
 <div class="page">
 
-    <header class="top">
-        <div class="logo">
-            SVAJIS.TXT
+    <header>
+
+        <div class="name">
+            Svajūnas Širmelis
         </div>
 
         <div class="status">
             SYSTEM: OFFLINE<br>
             ERROR: 404
         </div>
+
     </header>
 
 
-    <main class="main">
+    <main>
 
-        <div class="error">
+        <div class="error-code">
             404
         </div>
 
-        <div class="message">
-            <strong>PAGE NOT FOUND.</strong><br><br>
 
-            The page you are looking for does not exist,
-            has been deleted, or was never here in the first place.
+        <div class="content">
+
+            <div class="title">
+                PAGE NOT FOUND.
+            </div>
+
+            <div class="description">
+                The page you are looking for does not exist,
+                has been deleted, or was never here in the first place.
+            </div>
+
+
+            <a
+                class="instagram"
+                href="https://www.instagram.com/svajis/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                [ VISIT @SVAJIS ON INSTAGRAM ]
+            </a>
+
         </div>
-
-
-        <div class="terminal">
-
-            &gt; accessing /sirmelis.lt<br>
-            &gt; connection established...<br>
-            &gt; searching for page...<br>
-            &gt; <span class="red">ERROR: FILE NOT FOUND</span><br>
-            &gt; redirecting to alternative location...<span class="cursor"></span>
-
-        </div>
-
-
-        <a
-            class="instagram"
-            href="https://www.instagram.com/svajis/"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            [ VISIT @SVAJIS ON INSTAGRAM ]
-        </a>
 
     </main>
 
@@ -284,7 +402,7 @@
     <footer>
 
         <span>
-            © 2026 SVAJIS
+            © 2026 Svajūnas Širmelis
         </span>
 
         <span>
