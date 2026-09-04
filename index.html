@@ -4,66 +4,110 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Svajūnas Širmelis</title>
+  <title>@svajis</title>
 
   <style>
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
     }
 
     body {
-      width: 100%;
-      height: 100vh;
-      background: #000;
-      color: #fff;
+      margin: 0;
+      background: #fff;
+      color: #111;
       font-family: Arial, Helvetica, sans-serif;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    .content {
-      text-align: center;
+    header {
+      width: 100%;
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
     }
 
     h1 {
-      font-size: clamp(32px, 5vw, 64px);
-      font-weight: 400;
-      letter-spacing: -1.5px;
+      margin: 0;
+      font-size: 22px;
+      font-weight: 500;
     }
 
-    a {
-      display: inline-block;
-      margin-top: 14px;
-      font-size: 12px;
-      letter-spacing: 1px;
-      color: #777;
+    header a {
+      color: #111;
       text-decoration: none;
-      transition: color 0.2s ease;
+      font-size: 14px;
     }
 
-    a:hover {
-      color: #fff;
+    header a:hover {
+      opacity: .5;
+    }
+
+    .feed {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Instagram profile embed */
+    .instagram-profile {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+      font-size: 12px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="content">
-    <h1>Svajūnas Širmelis</h1>
+  <header>
+    <h1>@svajis</h1>
 
     <a
       href="https://www.instagram.com/svajis/"
       target="_blank"
-      rel="noopener noreferrer"
-    >
-      @svajis
+      rel="noopener noreferrer">
+      Instagram ↗
     </a>
-  </div>
+  </header>
+
+  <main class="feed">
+
+    <div class="instagram-profile">
+
+      <blockquote
+        class="instagram-media"
+        data-instgrm-permalink="https://www.instagram.com/svajis/"
+        data-instgrm-version="14"
+        style="
+          background:#fff;
+          border:0;
+          border-radius:0;
+          margin:0 auto;
+          max-width:1000px;
+          min-width:326px;
+          width:100%;
+        ">
+      </blockquote>
+
+    </div>
+
+  </main>
+
+  <footer>
+    © 2026 Svajis
+  </footer>
+
+  <script async src="https://www.instagram.com/embed.js"></script>
 
 </body>
 </html>
